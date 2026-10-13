@@ -31,7 +31,7 @@ Light-theme, Play Store-inspired responsive web app. Public homepage, search, pe
 - The countdown **does not verify a human**. For actual bot checks use Cloudflare Turnstile with server-side token verification.
 - Timers are a client-side UX feature, not a security gate, and can be bypassed by directly opening a URL. Do not claim otherwise.
 - Avoid ad-only pages, forced ad clicks, or deceptive interstitials. Two timers may reduce completion and revenue. Measure real click-through and completion.
-- Use only APK links you have rights to distribute, and check your file host and ad provider policies.
+- Use only APK links you have rights to distribute, and check your file host and ad provider policies..
 
 ## Security notes
 - The admin path is not an authentication secret. Supabase Auth + Row Level Security protect writes.
