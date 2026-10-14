@@ -12,3 +12,15 @@
 
 /* Professional footer and ad inventory positions */
 footer{flex-wrap:wrap}footer .footer-social{display:flex;flex-direction:row;align-items:center;gap:18px;flex-wrap:wrap}footer .footer-social a{color:#075de0;font-size:13px;font-weight:650;overflow-wrap:anywhere}footer .footer-social a:hover{text-decoration:underline}.ct-ad-placement{margin:26px auto;min-height:110px;border-radius:14px;background:#f8fafc;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;max-width:100%;overflow:hidden}.ct-ad-placement>small{font-size:10px;letter-spacing:1px;color:#8290a3}.ct-ad-mount{width:100%;min-height:85px;text-align:center}@media(max-width:760px){footer .footer-social{gap:12px}.ct-ad-placement{min-height:90px}}
+
+/* Download dead-link reporting */
+.deadlink-report{margin-top:24px;padding:18px;border:1px solid rgba(245,158,11,.35);border-radius:14px;background:rgba(245,158,11,.055);text-align:left}
+.deadlink-report-head{display:flex;align-items:flex-start;gap:11px}
+.deadlink-report-head>svg{flex-shrink:0;color:#e89b27;margin-top:2px}
+.deadlink-report-head strong{font-size:1rem}
+.deadlink-report-head p{margin:5px 0 0;opacity:.75;font-size:.9rem}
+.deadlink-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.deadlink-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 15px;border:1px solid rgba(245,158,11,.55);border-radius:10px;color:inherit;text-decoration:none;font-weight:650;font-size:.9rem;transition:background .2s}
+.deadlink-button:hover{background:rgba(245,158,11,.15)}
+.deadlink-note{font-size:.78rem;opacity:.68;margin:12px 0 0}
+@media(max-width:540px){.deadlink-report{padding:14px}.deadlink-actions{flex-direction:column}.deadlink-button{width:100%}}
