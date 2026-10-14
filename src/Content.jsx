@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react';
 import {Link,useParams} from 'react-router-dom';
 import {Video,Wrench,Plus,Pencil,Trash2,ArrowLeft,ExternalLink} from 'lucide-react';
-import supabase from './supabase';
+import { supabase } from './supabase';
 
 const defs={videos:{title:'Videos',singular:'Video',icon:Video,fields:[['title','Title'],['slug','URL slug'],['description','Description'],['thumbnail_url','Thumbnail image URL'],['video_url','YouTube or video URL'],['category','Category']]},tools:{title:'Tools',singular:'Tool',icon:Wrench,fields:[['title','Title'],['slug','URL slug'],['description','Description'],['icon_url','Icon image URL'],['tool_url','Tool website URL'],['category','Category']]}};
 const slugify=s=>(s||'').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
