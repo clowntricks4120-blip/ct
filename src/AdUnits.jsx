@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './AdUnits.css';
 
-// Publisher-provided snippets. Each iframe owns its own `atOptions` global.
-// Keep intrusive formats (popunder/social bar/smartlink) disabled by default.
+// Publisher-supplied ad codes. Do not sandbox or nest banner scripts in srcDoc.
 const UNITS = {
   mobile: { key: 'bc7edf687d275b253a7333dee0bfb342', width: 320, height: 50 },
   desktop: { key: '3051c0543ae398e3c48f677e93512df6', width: 728, height: 90 },
@@ -13,16 +12,57 @@ const UNITS = {
 };
 const NATIVE_KEY = 'b3ab22ebc0d9aee79ab8d96cdbc43c5a';
 
+// The provider's banner code uses the global atOptions variable. Serialize
+// initialization so two simultaneously mounted React placements do not clash.
+let bannerQueue = Promise.resolve();
+function queueBannerLoad(target, unit, isCancelled) {
+  const run = () => new Promise(resolve => {
+    if (isCancelled() || !target.isConnected) return resolve();
+    window.atOptions = { key: unit.key, format: 'iframe', height: unit.height, width: unit.width, params: {} };
+    const script = document.createElement('script');
+    script.src = `https://bellnewyork.org/22/${unit.key}`;
+    script.async = false;
+    script.referrerPolicy = 'strict-origin-when-cross-origin';
+    let finished = false;
+    const finish = () => { if (!finished) { finished = true; clearTimeout(timeout); resolve(); } };
+    script.onload = finish;
+    script.onerror = finish;
+    const timeout = setTimeout(finish, 12000);
+    target.appendChild(script);
+  });
+  bannerQueue = bannerQueue.catch(() => {}).then(run);
+}
+
 function Banner({ type }) {
+  const host = useRef(null);
   const unit = UNITS[type];
+  useEffect(() => {
+    if (!unit || !host.current) return;
+    const element = host.current;
+    let cancelled = false;
+    queueBannerLoad(element, unit, () => cancelled);
+    return () => { cancelled = true; element.replaceChildren(); };
+  }, [unit]);
   if (!unit) return null;
-  const html = `<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;overflow:hidden"><script>var atOptions=${JSON.stringify({ key: unit.key, format: 'iframe', height: unit.height, width: unit.width, params: {} })};</script><script src="https://bellnewyork.org/22/${unit.key}"></script></body></html>`;
-  return <iframe title={`Advertisement ${type}`} className="ct-ad-frame" width={unit.width} height={unit.height} loading="lazy" sandbox="allow-scripts allow-popups" referrerPolicy="strict-origin-when-cross-origin" srcDoc={html} />;
+  return <div ref={host} className="ct-ad-direct" style={{ width: unit.width, minHeight: unit.height, maxWidth: '100%' }} />;
 }
 
 function NativeAd() {
-  const html = `<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;overflow:hidden"><script async data-cfasync="false" src="https://bellnewyork.org/21/${NATIVE_KEY}"></script><div id="container-${NATIVE_KEY}"></div></body></html>`;
-  return <iframe title="Native advertisement" className="ct-native-frame" loading="lazy" sandbox="allow-scripts allow-popups" referrerPolicy="strict-origin-when-cross-origin" srcDoc={html} />;
+  const host = useRef(null);
+  useEffect(() => {
+    const element = host.current;
+    if (!element) return;
+    const container = document.createElement('div');
+    container.id = `container-${NATIVE_KEY}`;
+    element.appendChild(container);
+    const script = document.createElement('script');
+    script.async = true;
+    script.dataset.cfasync = 'false';
+    script.src = `https://bellnewyork.org/21/${NATIVE_KEY}`;
+    element.insertBefore(script, container);
+    return () => { element.replaceChildren(); };
+  }, []);
+  return <div ref={host} className="ct-native-direct" />;
 }
 
 export default function AdSlot({ placement = 'general', type = 'rectangle' }) {
