@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /control-portal-ct
+Disallow: /download/
+Sitemap: https://ct.clowntricks4120.workers.dev/sitemap.xml
