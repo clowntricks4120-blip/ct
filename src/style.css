@@ -74,3 +74,16 @@ footer{flex-wrap:wrap}footer .footer-social{display:flex;flex-direction:row;alig
 .ct-modal-grid .empty{grid-column:1/-1}
 @media(max-width:700px){.ct-modal-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.ct-modal-grid .ct-modal-app{min-height:133px}.ct-modal-grid .ct-modal-app .appicon{width:54px;height:54px}}
 @media(max-width:380px){.ct-modal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Popup browser: four app tiles, ad after each four, two bottom banners */
+.ct-modal-scroll{overflow-y:auto;min-height:0;flex:1;padding:8px 12px 18px;overscroll-behavior:contain}
+.ct-modal{display:flex;flex-direction:column;max-height:92dvh}
+.ct-modal-scroll .ct-modal-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:10px 0}
+.ct-modal-scroll .ct-modal-app{min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+.ct-modal-scroll .ct-modal-app span{min-width:0;width:100%}
+.ct-modal-scroll .ct-modal-app strong{display:block;overflow-wrap:anywhere}
+.ct-modal-scroll .ct-ad-placement{max-width:100%;margin:12px auto;overflow:hidden}
+.ct-modal-bottom-ads{display:grid;gap:10px;margin-top:14px}
+.ct-modal-bottom-ads .ct-ad-placement{margin:0 auto}
+.ct-hero-shortcuts button{display:inline-flex;align-items:center;gap:6px}
+@media(max-width:560px){.ct-modal{max-height:100dvh;height:100dvh;border-radius:0}.ct-modal-scroll .ct-modal-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.ct-modal-scroll .ct-modal-app{padding:5px}.ct-modal-scroll .ct-modal-app strong{font-size:11px}.ct-modal-scroll .ct-modal-app small{font-size:10px}.ct-modal-controls{flex-wrap:wrap}.ct-modal-tabs{overflow-x:auto;max-width:100%}}
