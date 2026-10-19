@@ -94,3 +94,9 @@ footer{flex-wrap:wrap}footer .footer-social{display:flex;flex-direction:row;alig
 .ct-modal-scroll .ct-modal-grid{overflow:visible!important;min-height:unset!important;flex:none!important;}
 .ct-modal-scroll .ct-modal-app{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;}
 .ct-modal-scroll .ct-ad-placement{position:relative;max-width:100%;}
+
+/* Bulk category management */
+.ct-bulk-manager{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:16px 0;padding:14px;border:1px solid rgba(120,150,200,.25);border-radius:12px;background:rgba(60,110,180,.08)}
+.ct-bulk-manager .checkbox{display:flex;align-items:center;gap:8px;margin:0}
+.ct-bulk-manager select{width:auto;min-width:130px;max-width:180px}
+.adminrow>input[type=checkbox]{width:19px;height:19px;flex-shrink:0;cursor:pointer}
