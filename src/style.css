@@ -61,3 +61,16 @@ footer{flex-wrap:wrap}footer .footer-social{display:flex;flex-direction:row;alig
 .ct-page-numbers button{background:#263852;border:0;color:white;border-radius:8px;min-width:32px;height:32px;cursor:pointer}
 .ct-ott-page{padding-top:40px}
 @media(max-width:600px){.ct-modal-backdrop{padding:0}.ct-modal{height:100dvh;max-height:100dvh;border-radius:0;border:0}.ct-modal-head{padding:20px 16px 10px}.ct-modal-controls{padding:8px 16px 14px}.ct-modal-list{padding:0 14px}.ct-modal-footer{padding:12px 9px}.ct-page-numbers button{min-width:28px;height:30px}.ct-modal-app{min-height:70px}.ct-modal-footer>button{font-size:12px;padding:8px}}
+
+/* Grid browser: five apps, advertisement, five apps */
+.ct-modal-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;align-content:start;padding-top:10px;padding-bottom:15px}
+.ct-modal-grid .ct-modal-app{display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px;min-width:0;min-height:145px;padding:14px 7px;border:1px solid #293d57;border-radius:14px;background:#17273d}
+.ct-modal-grid .ct-modal-app:hover{border-color:#408cf7;background:#1e3553}
+.ct-modal-grid .ct-modal-app .appicon{width:62px;height:62px;border-radius:15px}
+.ct-modal-grid .ct-modal-app span{width:100%;align-items:center;gap:4px}
+.ct-modal-grid .ct-modal-app strong{font-size:12px;line-height:1.3;max-width:100%;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ct-modal-grid .ct-modal-app small{font-size:11px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ct-modal-grid .ct-ad-placement{grid-column:1/-1;justify-self:center;width:100%;max-width:340px;margin:8px auto}
+.ct-modal-grid .empty{grid-column:1/-1}
+@media(max-width:700px){.ct-modal-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.ct-modal-grid .ct-modal-app{min-height:133px}.ct-modal-grid .ct-modal-app .appicon{width:54px;height:54px}}
+@media(max-width:380px){.ct-modal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
