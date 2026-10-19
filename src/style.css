@@ -87,3 +87,10 @@ footer{flex-wrap:wrap}footer .footer-social{display:flex;flex-direction:row;alig
 .ct-modal-bottom-ads .ct-ad-placement{margin:0 auto}
 .ct-hero-shortcuts button{display:inline-flex;align-items:center;gap:6px}
 @media(max-width:560px){.ct-modal{max-height:100dvh;height:100dvh;border-radius:0}.ct-modal-scroll .ct-modal-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.ct-modal-scroll .ct-modal-app{padding:5px}.ct-modal-scroll .ct-modal-app strong{font-size:11px}.ct-modal-scroll .ct-modal-app small{font-size:10px}.ct-modal-controls{flex-wrap:wrap}.ct-modal-tabs{overflow-x:auto;max-width:100%}}
+
+/* Popup scrolling: touch gestures must work when starting on an app card. */
+.ct-modal-scroll{overflow-y:auto!important;overflow-x:hidden;-webkit-overflow-scrolling:touch;touch-action:pan-y;overscroll-behavior-y:contain;position:relative;isolation:isolate;}
+.ct-modal-scroll .ct-modal-grid,.ct-modal-scroll .ct-modal-app,.ct-modal-scroll .ct-modal-app *{touch-action:pan-y;}
+.ct-modal-scroll .ct-modal-grid{overflow:visible!important;min-height:unset!important;flex:none!important;}
+.ct-modal-scroll .ct-modal-app{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;}
+.ct-modal-scroll .ct-ad-placement{position:relative;max-width:100%;}
