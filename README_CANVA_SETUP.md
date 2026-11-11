@@ -1,10 +1,10 @@
-# Canva feature setup (add-on)
+# Canva Premium by Clown Tricks — add-on setup
 
-This feature is additive. Existing Apps, Tools, Videos, login and admin pages are retained.
+This is an additive feature. Existing Apps, Tools, Videos, downloads, and Admin features remain in place.
 
-## 1. Supabase
+## 1. Supabase (one-time setup)
 1. Open Supabase SQL Editor and run `supabase/canva.sql` after your existing `supabase/schema.sql`.
-2. In the SQL Editor, create the initial rows (replace the two task URLs with the websites you want visitors to open):
+2. Create the initial rows once (replace the two partner URLs with your real HTTPS destinations):
 
 ```sql
 insert into public.links(id,url,manual_override)
@@ -16,38 +16,30 @@ values (1,'https://example.com/','https://example.org/')
 on conflict (id) do nothing;
 ```
 
-3. Change the example task URLs in Admin > Canva. The Canva destination can also be set there; saving it activates a manual override.
+3. Keep the existing Vite environment variables `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` configured exactly as they are for the rest of the website. The Canva visitor page reads the public invite and task URLs directly through the existing Supabase client; it does not depend on `/api/canva-link` or `/api/canva-report` Worker routes.
 
-## 2. Cloudflare Pages environment variables
-Keep your existing Vite variables `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` as before. In addition, set these for Pages Functions in Production (and Preview if desired):
-- `SUPABASE_URL` — same project URL as the Vite app.
-- `SUPABASE_ANON_KEY` — Supabase anon/publishable key.
+## 2. Admin settings
+- Admin URL remains `/control-portal-ct`.
+- Open the **Canva** tab.
+- Set the Canva team invite URL and both partner website URLs, then save.
+- Saving a manual Canva invite pauses the scheduled GitHub update. Use **Resume automatic updates** to re-enable it.
+- The existing GitHub Action can continue refreshing the invite every three hours. It uses repository secrets `SUPABASE_URL` and `SUPABASE_SERVICE_KEY`; never put the service-role key in Vite or browser code.
 
-These are read only by Pages Functions. Do not put the service-role key in Vite or Cloudflare client-side variables.
-
-## 3. GitHub Actions secrets
-In GitHub repository Settings > Secrets and variables > Actions, add:
-- `SUPABASE_URL`
-- `SUPABASE_SERVICE_KEY` (service-role key; secret only)
-
-The workflow `.github/workflows/update-canva.yml` runs every three hours and can also be started manually from Actions. `getl.py` preserves the original extraction sequence, validates HTTPS Canva hosts, and calls an atomic database function. If extraction fails, the old link stays untouched. If a manual override is active, automatic updates are skipped.
+## 3. Visitor flow and ad placements
+- Home page: the **Canva Premium By ClownTricks** feature link appears directly below the top banner ad.
+- `/canva`: shows two ad placements and the two-step progress.
+- `/canva/task/1` and `/canva/task/2`: each shows two ad placements and the configured partner destination. Visitors open the external site, return, and wait 15 seconds before the step is marked complete.
+- After both steps, the Canva invite URL entered in Admin becomes available.
+- There are six ad placements across the Canva main page and the two internal partner-visit pages. Ads cannot be inserted into the external partner websites themselves.
 
 ## 4. Deploy
-Commit and push the project. Cloudflare Pages will build the Vite app and deploy the `functions/` endpoints automatically. Check that the Pages project is connected to the repository root and builds with `npm run build` to `dist`.
-
-## 5. Admin and visitor flow
-- Admin URL remains `/control-portal-ct`; Canva is a new Admin tab.
-- Public Canva page is `/canva`.
-- Admin can set the two visit URLs, set a manual Canva invite, or resume automatic updates.
-- Each visitor task opens in a new tab; returning to the page starts a 15-second wait. The second completion unlocks the invite.
-- Broken-link reports are limited to three per hashed IP per day.
+Build with `npm run build` and deploy using the same Cloudflare setup already used by the website. The `_redirects` files were removed because the Worker/Vite single-page-app fallback handles client routes; keeping `/* /index.html 200` alongside that fallback can cause Cloudflare's infinite redirect-rule error.
 
 ## Important
-- The task URLs are placeholders until you set your actual two website URLs in Admin > Canva.
+- Replace the example partner URLs with real HTTPS links in Admin > Canva.
 - The 15-second wait is a client-side flow, not proof that a visitor read a page or a bot check.
-- The Canva invite must be a real HTTPS `canva.com` URL. Invite links may expire and Canva team owners can access information shared within their team.
+- The Canva invite must be a real HTTPS Canva URL. Invite links may expire, and Canva team owners can access information shared within their team.
+- Clown Tricks is not affiliated with Canva.
 
-## Extraction behavior
-`getl.py` now follows the supplied `canva.py` extraction sequence exactly: it fetches the configured Bingotingo page, finds the first `https://biozium.com/public/bio-links/...` URL, fetches that Biozium profile, and extracts a `https://www.canva.com/brand/join?...` invitation. The destination is validated before it is saved. If either page changes, the network fails, or no valid invitation is found, the existing database invite is left unchanged.
-
-To test the extractor locally without updating Supabase, you can temporarily comment out the `save_invite(invite_url)` call at the bottom of `getl.py`, then run `python getl.py`. For the scheduled GitHub Action, keep that call enabled and configure the two GitHub Actions secrets described above.
+## Automatic invite extraction
+`getl.py` follows the configured extraction sequence: it fetches the Bingotingo page, finds a Biozium public bio-link, fetches that profile, and extracts a Canva brand-join URL. The destination is validated before saving. GitHub Actions requires `SUPABASE_URL` and `SUPABASE_SERVICE_KEY` repository secrets. If extraction fails, the old invite remains unchanged; a manual override prevents automatic replacement.

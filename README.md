@@ -16,7 +16,7 @@ Light-theme, Play Store-inspired responsive web app. Public homepage, search, pe
 - Cloudflare Workers & Pages > Create > Pages > Connect Git repository.
 - Framework preset: **Vite**; build command `npm run build`; build output directory `dist`.
 - Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in Pages environment variables, then redeploy.
-- `public/_redirects` supplies SPA routing for `/app/...`, `/download/...` and admin URLs.
+- Cloudflare Worker/Vite single-page-app fallback handles routes such as `/app/...`, `/download/...`, `/canva` and the admin URL; do not add a catch-all `_redirects` rule on top of this fallback.
 - In Supabase Auth URL configuration, set Site URL to your published website. If using email confirmation or password recovery, add appropriate redirect URLs.
 
 ## Admin use
@@ -40,4 +40,4 @@ Light-theme, Play Store-inspired responsive web app. Public homepage, search, pe
 - If re-running schema.sql, PostgreSQL policies/triggers already exist; execute only once on a fresh project or drop existing policies/triggers before reapplying.
 
 ## Canva invite feature
-The `/canva` visitor page and Canva controls in the existing admin dashboard are an optional add-on. Follow [`README_CANVA_SETUP.md`](README_CANVA_SETUP.md) and run [`supabase/canva.sql`](supabase/canva.sql) once. Configure the two website-visit URLs and the invite from Admin > Canva. GitHub Actions refreshes the invite every three hours unless a manual override is active.
+The `/canva` visitor page and Canva controls in the existing admin dashboard are an optional add-on. Follow [`README_CANVA_SETUP.md`](README_CANVA_SETUP.md) and run [`supabase/canva.sql`](supabase/canva.sql) once. Configure the two partner URLs and the invite from Admin > Canva. The home-page Canva feature button and six Canva ad placements are included; GitHub Actions can refresh the invite unless a manual override is active.
