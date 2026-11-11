@@ -32,7 +32,7 @@ export default function CanvaPage(){
         </div>
         <p className="canva-updated">{config.updated_at?`Invite last updated: ${new Date(config.updated_at).toLocaleString()}`:'Invite update time unavailable'}</p>
       </>}
-      <div className="canva-warning"><AlertTriangle size={19}/><p><b>Important privacy notice</b><br/>This is a third-party team invite. 500 Members only allowed in one team </br> If Team Invite is full then try after some times </br> Every 3hr Link Will Update </br> Joining gives the team owner access to your name, email and designs in that team. Use a separate Canva account. Links may expire or stop working.</p></div>
+      <div className="canva-warning"><AlertTriangle size={19}/><p><b>Important privacy notice</b><br/>This is a third-party team invite. 500 Members only allowed in one team <br/> If Team Invite is full then try after some times <br/> Every 3hr Link Will Update <br/> Joining gives the team owner access to your name, email and designs in that team. Use a separate Canva account. Links may expire or stop working.</p></div>
       <div className="canva-report"><span>Invite link not working?</span><button onClick={report}><Flag size={15}/>Report broken link</button>{reportMsg&&<small role="status">{reportMsg}</small>}</div>
     </section>
     <AdSlot placement="canva-main-bottom" type="rectangle"/>
