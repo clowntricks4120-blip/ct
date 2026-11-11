@@ -38,3 +38,6 @@ Light-theme, Play Store-inspired responsive web app. Public homepage, search, pe
 - Client environment keys are public by design; never put a Supabase service role key in Vite.
 - Production use should add appropriate CSP, abuse monitoring, and optionally server-side URL allowlisting. External mirror links open in a new tab with `noopener noreferrer`.
 - If re-running schema.sql, PostgreSQL policies/triggers already exist; execute only once on a fresh project or drop existing policies/triggers before reapplying.
+
+## Canva invite feature
+The `/canva` visitor page and Canva controls in the existing admin dashboard are an optional add-on. Follow [`README_CANVA_SETUP.md`](README_CANVA_SETUP.md) and run [`supabase/canva.sql`](supabase/canva.sql) once. Configure the two website-visit URLs and the invite from Admin > Canva. GitHub Actions refreshes the invite every three hours unless a manual override is active.
