@@ -80,7 +80,8 @@ def extract_invite(start_url: str = START) -> str:
 
 def save_invite(invite: str) -> None:
     base = os.environ.get("SUPABASE_URL", "").rstrip("/")
-    key = os.environ.get("SUPABASE_SERVICE_KEY")
+    key = os.environ.get("SUPABASE_SERVICE_KEY", "")
+
     if not base or not key:
         raise RuntimeError(
             "SUPABASE_URL and SUPABASE_SERVICE_KEY are required; refusing to report success"
@@ -117,3 +118,4 @@ if __name__ == "__main__":
         sys.exit(f"Network error; existing link was not changed: {exc}")
     except RuntimeError as exc:
         sys.exit(str(exc))
+
